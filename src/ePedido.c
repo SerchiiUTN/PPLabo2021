@@ -234,6 +234,52 @@ int ePedido_ContarPedidosPendientes(ePedido pedidos[], int tam, int idCliente)
 	return contador;
 }
 
+int ePedido_ContarPedidosCompletados(ePedido pedidos[], int tam, int idCliente)
+{
+	int contador;
+
+
+	contador = 0;
+
+	if(pedidos != NULL && tam > 0)
+	{
+		for(int i = 0; i < tam; i++)
+		{
+			if(pedidos[i].isEmpty == FULL && strcmp(pedidos[i].estado,"Completado") == 0 && pedidos[i].idCliente == idCliente)
+			{
+				contador++;
+			}
+
+		}
+
+	}
+
+	return contador;
+}
+
+int ePedido_ContarPedidos(ePedido pedidos[], int tam, int idCliente)
+{
+	int contador;
+
+
+	contador = 0;
+
+	if(pedidos != NULL && tam > 0)
+	{
+		for(int i = 0; i < tam; i++)
+		{
+			if(pedidos[i].isEmpty == FULL && pedidos[i].idCliente == idCliente)
+			{
+				contador++;
+			}
+
+		}
+
+	}
+
+	return contador;
+}
+
 int ePedido_MostrarUnPedido(ePedido pedido, int modo)
 {
 	int retorno;
@@ -344,3 +390,4 @@ int ePedido_ProcesarResiduos(ePedido pedidos[],int tam)
 
 	return retorno;
 }
+

@@ -71,6 +71,24 @@ int ePedido_CargarUnPedido(ePedido pedidos[], int tamPedidos, eCliente clientes[
 /// @return Devuelve 0 si no encontro nada o el total de pedidos pendientes
 int ePedido_ContarPedidosPendientes(ePedido pedidos[], int tam, int idCliente);
 
+/// @fn int ePedido_ContarPedidosCompletados(ePedido[], int, int)
+/// @brief Cuenta la cantidad de pedidos completados por cliente y devuelve el total
+///
+/// @param pedidos -> Array de pedidos
+/// @param tam -> Tamaño del array
+/// @param idCliente -> ID del cliente
+/// @return Devuelve 0 si no encontro nada o el total de pedidos completados
+int ePedido_ContarPedidosCompletados(ePedido pedidos[], int tam, int idCliente);
+
+/// @fn int ePedido_ContarPedidos(ePedido[], int, int)
+/// @brief Cuenta la cantidad de pedidos por cliente y devuelve el total
+///
+/// @param pedidos -> Array de pedidos
+/// @param tam -> Tamaño del array
+/// @param idCliente -> ID del cliente
+/// @return Devuelve 0 si no encontro nada o el total de pedidos
+int ePedido_ContarPedidos(ePedido pedidos[], int tam, int idCliente);
+
 /// @fn int ePedido_MostrarUnPedido(ePedido, int)
 /// @brief Muestra por consola los datos de un pedido dependiendo el modo indicado
 /// 		(1 - Pendiente o 2 - Completado)

@@ -10,6 +10,7 @@
 
 #include "eCliente.h"
 #include "ePedido.h"
+#include "Auxiliar.h"
 #define EMPTY 0
 #define FULL 1
 
@@ -69,5 +70,40 @@ int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido pedidos[], int tamP
 /// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
 int Informes_ImprimirPromedioKgPolipropilenoPorCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente);
 
+/// @fn int Informes_ClientesConMasPedidosPendientes(ePedido[], int, eCliente[], int, int, int)
+/// @brief Imprime el consola el/los cliente/s con mas pedidos pendientes
+///
+/// @param pedidos -> Array de pedidos
+/// @param tamPedidos -> Tamaño del array pedidos
+/// @param clientes -> Array de Clientes
+/// @param tamClientes -> Tamaño del array Clientes
+/// @param ultimoPedido -> Ultimo pedido realizado
+/// @param ultimoCliente -> Ultimo cliente registrado
+/// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
+int Informes_ClientesConMasPedidosPendientes(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente);
+
+/// @fn int Informes_ClientesConMasPedidosCompletados(ePedido[], int, eCliente[], int, int, int)
+/// @brief Imprime el consola el/los cliente/s con mas pedidos completados
+///
+/// @param pedidos -> Array de pedidos
+/// @param tamPedidos -> Tamaño del array pedidos
+/// @param clientes -> Array de Clientes
+/// @param tamClientes -> Tamaño del array Clientes
+/// @param ultimoPedido -> Ultimo pedido realizado
+/// @param ultimoCliente -> Ultimo cliente registrado
+/// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
+int Informes_ClientesConMasPedidosCompletados(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente);
+
+/// @fn int Informes_ClientesConMasPedidos(ePedido[], int, eCliente[], int, int, int)
+/// @brief Imprime el consola el/los cliente/s con mas pedidos
+///
+/// @param pedidos -> Array de pedidos
+/// @param tamPedidos -> Tamaño del array pedidos
+/// @param clientes -> Array de Clientes
+/// @param tamClientes -> Tamaño del array Clientes
+/// @param ultimoPedido -> Ultimo pedido realizado
+/// @param ultimoCliente -> Ultimo cliente registrado
+/// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
+int Informes_ClientesConMasPedidos(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente);
 
 #endif /* INFORMES_H_ */

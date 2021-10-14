@@ -27,9 +27,9 @@ int main(void) {
 	setbuf(stdout,NULL);
 	eCliente clientes[TAMCLIENTES] =
 			{
-				{1,"CocaCola","30-45678912-3",{"Av. 25 de Mayo", 123},"CABA",FULL},
-				{2,"Pepsi","30-45618912-3",{"Maipu",5800},"CABA",FULL},
-				{3,"Culligan Argentina","30-12345685-2",{"Montenegro",1380},"Laferrere",FULL}
+				{1,"CocaCola","30-45678912-3",{"Av. 25 de Mayo", 123},{"CABA"},FULL},
+				{2,"Pepsi","30-45618912-3",{"Maipu",5800},{"CABA"},FULL},
+				{3,"Culligan Argentina","30-12345685-2",{"Montenegro",1380},{"Laferrere"},FULL}
 			};
 	ePedido pedidos[TAMPEDIDOS];
 	int opcion;
@@ -61,6 +61,9 @@ int main(void) {
 		printf(" 8 - Imprimir pedidos procesados\n");
 		printf(" 9 - Imprimir pedidos pendientes segun localidad\n");
 		printf("10 - Promedio de kilos de polipropileno reciclado por cliente\n");
+		printf("11 - Clientes con mas pedidos pendientes\n");
+		printf("12 - Clientes con mas pedidos completados\n");
+		printf("13 - Clientes con mas pedidos\n");
 		printf(" 0 - Salir\n\n");
 
 		utn_PedirEntero(&opcion,"Escoja una opcion: ","Opcion incorrecta, ingrese una opcion valida\n",0,10,0);
@@ -281,6 +284,56 @@ int main(void) {
 			break;
 			case 10:
 				retornoAuxiliar = Informes_ImprimirPromedioKgPolipropilenoPorCliente(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido);
+
+				if(retornoAuxiliar == -1)
+				{
+					printf("\nNo hay pedidos cargados.\n\n");
+				}
+				else
+				{
+					if(retornoAuxiliar == 0)
+					{
+						printf("\nNo se encontraron clientes ingresados.\n\n");
+					}
+
+				}
+
+			case 11:
+				retornoAuxiliar = Informes_ClientesConMasPedidosPendientes(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido);
+
+				if(retornoAuxiliar == -1)
+				{
+					printf("\nNo hay pedidos cargados.\n\n");
+				}
+				else
+				{
+					if(retornoAuxiliar == 0)
+					{
+						printf("\nNo se encontraron clientes ingresados.\n\n");
+					}
+
+				}
+			break;
+
+			case 12:
+				retornoAuxiliar = Informes_ClientesConMasPedidosCompletados(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido);
+
+				if(retornoAuxiliar == -1)
+				{
+					printf("\nNo hay pedidos cargados.\n\n");
+				}
+				else
+				{
+					if(retornoAuxiliar == 0)
+					{
+						printf("\nNo se encontraron clientes ingresados.\n\n");
+					}
+
+				}
+			break;
+
+			case 13:
+				retornoAuxiliar = Informes_ClientesConMasPedidos(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido);
 
 				if(retornoAuxiliar == -1)
 				{
