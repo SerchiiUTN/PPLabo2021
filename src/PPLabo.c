@@ -66,7 +66,7 @@ int main(void) {
 		printf("13 - Clientes con mas pedidos\n");
 		printf(" 0 - Salir\n\n");
 
-		utn_PedirEntero(&opcion,"Escoja una opcion: ","Opcion incorrecta, ingrese una opcion valida\n",0,10,0);
+		utn_PedirEntero(&opcion,"Escoja una opcion: ","Opcion incorrecta, ingrese una opcion valida\n",0,13,0);
 
 		switch(opcion)
 		{
