@@ -9,6 +9,7 @@
 #define ECLIENTE_H_
 
 #include "eDireccion.h"
+#include "eLocalidad.h"
 #define EMPTY 0
 #define FULL 1
 
@@ -20,7 +21,7 @@ typedef struct
 	char empresa[51];
 	char cuit[14];
 	eDireccion direccion;
-	char localidad[51];
+	eLocalidad localidad;
 	int isEmpty;
 }eCliente;
 

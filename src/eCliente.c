@@ -89,7 +89,7 @@ int eCliente_IngresarUnCliente(eCliente* cliente)
 			utn_PedirTexto(clienteAuxiliar.empresa, 51, "Ingrese el nombre de la empresa: ", "Error, ingrese un nombre valido", 2) == 1 &&
 			utn_PedirCuit(clienteAuxiliar.cuit, sizeof(clienteAuxiliar.cuit), "Ingrese el CUIT con guiones (XX-XXXXXXXX-X): ", "Error, intente nuevamente", 2) == 1 &&
 			eDireccion_IngresarDireccion(&clienteAuxiliar.direccion) == 1		&&
-			utn_PedirTexto(clienteAuxiliar.localidad, sizeof(clienteAuxiliar.localidad), "Ingrese la localidad: ", "La localidad es incorrecta", 2) == 1
+			eLocalidad_IngresarLocalidad(&clienteAuxiliar.localidad) == 1
 		  )
 		{
 			retorno = 1;
@@ -175,7 +175,7 @@ int eCliente_ModificarCliente(eCliente clientes[], int tam)
 				index != -1 		&&
 				clientes[index].isEmpty == FULL &&
 				eDireccion_IngresarDireccion(&auxiliar.direccion) == 1 &&
-				utn_PedirTexto(auxiliar.localidad, 51, "Ingrese la localidad: ", "La localidad es incorrecta", 2) == 1
+				eLocalidad_IngresarLocalidad(&auxiliar.localidad) == 1
 			)
 		{
 			clientes[index] = auxiliar;
@@ -252,7 +252,7 @@ int eCliente_MostrarUnCliente(eCliente cliente)
 
 	printf("%4d - %30s -%14s - ",cliente.idCliente,cliente.empresa,cliente.cuit);
 	eDireccion_MostrarDireccion(cliente.direccion);
-	printf(" - %20s\n",cliente.localidad);
+	printf(" - %20s\n",cliente.localidad.localidad);
 	retorno = 1;
 
 
@@ -274,7 +274,7 @@ int eCliente_MostrarDatosClienteEnPedido(eCliente clientes[], int tam, int idCli
 		{
 			printf("CUIT : %s \nDireccion : ",clientes[index].cuit);
 			eDireccion_MostrarDireccion(clientes[index].direccion);
-			printf("\nLocalidad : %s \n\n",clientes[index].localidad);
+			printf("\nLocalidad : %s \n\n",clientes[index].localidad.localidad);
 			retorno = 1;
 		}
 	}

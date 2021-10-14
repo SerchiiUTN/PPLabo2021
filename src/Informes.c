@@ -143,7 +143,7 @@ int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido pedidos[], int tamP
 			{
 				for(int i = 0; i < tamClientes; i++)
 				{
-					if(clientes[i].isEmpty == FULL && stricmp(clientes[i].localidad, localidad) == 0)
+					if(clientes[i].isEmpty == FULL && stricmp(clientes[i].localidad.localidad, localidad) == 0)
 					{
 						retorno = 1;
 						cantidadPedidos = ePedido_ContarPedidosPendientes(pedidos,tamPedidos,clientes[i].idCliente);

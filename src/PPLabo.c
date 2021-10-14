@@ -22,6 +22,7 @@
 #define FULL 1
 
 
+
 int main(void) {
 	setbuf(stdout,NULL);
 	eCliente clientes[TAMCLIENTES] =
