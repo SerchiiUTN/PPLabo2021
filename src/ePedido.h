@@ -17,7 +17,7 @@ typedef struct
 	int idPedido;
 	float kilosTotales;
 	int idCliente;
-	char estado[12];
+	int estado;
 	float kilosHDPE;
 	float kilosLDPE;
 	float kilosPP;
@@ -62,32 +62,18 @@ int ePedido_BuscarPedidoPendientePorCliente(ePedido pedidos[], int tam, int id);
 /// @return Retorna 1 (OK),  0 (Si no se pudo cargar el pedido) o -1 (Si los parametros no son validos)
 int ePedido_CargarUnPedido(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int* ultimoPedido);
 
-/// @fn int ePedido_ContarPedidosPendientes(ePedido[], int, int)
-/// @brief Cuenta la cantidad de pedidos pendientes por cliente y devuelve el total
-///
-/// @param pedidos -> Array de pedidos
-/// @param tam -> Tamaño del array
-/// @param idCliente -> ID del cliente
-/// @return Devuelve 0 si no encontro nada o el total de pedidos pendientes
-int ePedido_ContarPedidosPendientes(ePedido pedidos[], int tam, int idCliente);
 
-/// @fn int ePedido_ContarPedidosCompletados(ePedido[], int, int)
-/// @brief Cuenta la cantidad de pedidos completados por cliente y devuelve el total
-///
-/// @param pedidos -> Array de pedidos
-/// @param tam -> Tamaño del array
-/// @param idCliente -> ID del cliente
-/// @return Devuelve 0 si no encontro nada o el total de pedidos completados
-int ePedido_ContarPedidosCompletados(ePedido pedidos[], int tam, int idCliente);
 
-/// @fn int ePedido_ContarPedidos(ePedido[], int, int)
-/// @brief Cuenta la cantidad de pedidos por cliente y devuelve el total
+/// @fn int ePedido_ContarPedidos(ePedido[], int, int, int)
+/// @brief  Cuenta los pedidos activos de un cliente segun el modo indicado
 ///
-/// @param pedidos -> Array de pedidos
-/// @param tam -> Tamaño del array
+/// @param pedidos -> Lista de pedidos
+/// @param tam -> Tamaño de la lista
 /// @param idCliente -> ID del cliente
-/// @return Devuelve 0 si no encontro nada o el total de pedidos
-int ePedido_ContarPedidos(ePedido pedidos[], int tam, int idCliente);
+/// @param modo -> 1 (Pendientes), 2 (Completados), si se ingresa cualquier otro entero contara
+/// 		pendientes y completados
+/// @return Retorna la cantidad de pedidos que tiene ese cliente segun el modo
+int ePedido_ContarPedidos(ePedido pedidos[], int tam, int idCliente, int modo);
 
 /// @fn int ePedido_MostrarUnPedido(ePedido, int)
 /// @brief Muestra por consola los datos de un pedido dependiendo el modo indicado

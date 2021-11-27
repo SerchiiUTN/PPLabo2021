@@ -10,53 +10,61 @@
 
 #include "eCliente.h"
 #include "ePedido.h"
-#include "Auxiliar.h"
 #define EMPTY 0
 #define FULL 1
 
-/// @fn int Informes_ImprimirClientesConPedidosPendientes(eCliente[], int, ePedido[], int, int)
-/// @brief Muestra por consola la lista de clientes y la cantidad de pedidos pendientes, si es que tiene
-///
-/// @param clientes -> Array de Clientes
-/// @param tamClientes -> Tamaño del array Clientes
-/// @param pedidos -> Array de pedidos
-/// @param tamPedidos -> Tamaño del array pedidos
-/// @param ultimoPedido -> Ultimo pedido realizado
-/// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro clientes)
-int Informes_ImprimirClientesConPedidosPendientes(eCliente clientes[], int tamClientes, ePedido pedidos[], int tamPedidos, int ultimoPedido);
 
-/// @fn int Informes_ImprimirPedidosPendientesConDatosCliente(ePedido[], int, eCliente[], int, int)
-/// @brief Imprime pedidos pendientes y los datos del cliente de ese pedido
+/// @fn int Informes_ImprimirClientesConPedidosPendientes(eCliente[], int, ePedido[], int, eLocalidad[], int, int)
+/// @brief Imprime los clientes y la cantidad de pedidos pendientes que tiene cada uno
 ///
-/// @param pedidos -> Array de pedidos
-/// @param tamPedidos -> Tamaño del array pedidos
-/// @param clientes -> Array de Clientes
-/// @param tamClientes -> Tamaño del array Clientes
-/// @param ultimoPedido -> Ultimo pedido realizado
-/// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
-int Informes_ImprimirPedidosPendientesConDatosCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido);
+/// @param clientes -> Lista de clientes
+/// @param tamClientes -> Tamaño de la lista
+/// @param pedidos -> Lista de pedidos
+/// @param tamPedidos -> Tamaño de la lista
+/// @param localidades -> Lista de localidades
+/// @param tamLocalidades -> Tamaño de la lista
+/// @param ultimoPedido -> ultimo pedido cargado
+/// @return -> Retorna 1 (OK), 0 (Error) o -1 (Sin pedidos)
+int Informes_ImprimirClientesConPedidosPendientes(eCliente clientes[], int tamClientes, ePedido pedidos[], int tamPedidos, eLocalidad localidades[], int tamLocalidades, int ultimoPedido);
 
-/// @fn int Informes_ImprimirPedidosCompletadosConDatosCliente(ePedido[], int, eCliente[], int, int)
-/// @brief Imprime pedidos completados y los datos del cliente de ese pedido (si esta activo)
+/// @fn int Informes_ImprimirPedidosPendientesConDatosCliente(ePedido[], int, eCliente[], int, eLocalidad[], int, int)
+/// @brief Imprime la lista de pedidos pendientes con los datos del cliente
 ///
-/// @param pedidos -> Array de pedidos
-/// @param tamPedidos -> Tamaño del array pedidos
-/// @param clientes -> Array de Clientes
-/// @param tamClientes -> Tamaño del array Clientes
-/// @param ultimoPedido -> Ultimo pedido realizado
-/// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
-int Informes_ImprimirPedidosCompletadosConDatosCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido);
+/// @param pedidos -> Lista de pedidos
+/// @param tamPedidos -> Tamaño de la lista
+/// @param clientes -> Lista de clientes
+/// @param tamClientes -> Tamaño de la lista
+/// @param localidades -> Lista de localidades
+/// @param tamLocalidades -> Tamaño de la lista
+/// @param ultimoPedido -> ultimo pedido cargado
+/// @return -> Retorna 1 (OK), 0 (Error) o -1 (Sin pedidos)
+int Informes_ImprimirPedidosPendientesConDatosCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades, int ultimoPedido);
 
-/// @fn int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido[], int, eCliente[], int, int)
-/// @brief Pide la localidad por pantalla y si hay pedidos con esa localidad los muestra
+/// @fn int Informes_ImprimirPedidosCompletadosConDatosCliente(ePedido[], int, eCliente[], int, eLocalidad[], int, int)
+/// @brief Imprime la lista de pedidos completados con los datos del cliente (si no fue eliminado)
 ///
-/// @param pedidos -> Array de pedidos
-/// @param tamPedidos -> Tamaño del array pedidos
-/// @param clientes -> Array de Clientes
-/// @param tamClientes -> Tamaño del array Clientes
-/// @param ultimoPedido -> Ultimo pedido realizado
-/// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
-int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido);
+/// @param pedidos -> Lista de pedidos
+/// @param tamPedidos -> Tamaño de la lista
+/// @param clientes -> Lista de clientes
+/// @param tamClientes -> Tamaño de la lista
+/// @param localidades -> Lista de localidades
+/// @param tamLocalidades -> Tamaño de la lista
+/// @param ultimoPedido -> ultimo pedido cargado
+/// @return -> Retorna 1 (OK), 0 (Error) o -1 (Sin pedidos)
+int Informes_ImprimirPedidosCompletadosConDatosCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades, int ultimoPedido);
+
+/// @fn int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido[], int, eCliente[], int, eLocalidad[], int, int)
+/// @brief Le pide al usuario que ingrese una localidad y si hay pedidos pendientes los muestra
+///
+/// @param pedidos -> Lista de pedidos
+/// @param tamPedidos -> Tamaño de la lista
+/// @param clientes -> Lista de clientes
+/// @param tamClientes -> Tamaño de la lista
+/// @param localidades -> Lista de localidades
+/// @param tamLocalidades -> Tamaño de la lista
+/// @param ultimoPedido -> ultimo pedido cargado
+/// @return -> Retorna 1 (OK), 0 (Error) o -1 (Sin pedidos)
+int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades, int ultimoPedido);
 
 /// @fn int Informes_ImprimirPromedioKgPolipropilenoPorCliente(ePedido[], int, eCliente[], int, int, int)
 /// @brief Calcula el promedio de kilos de polipropileno por cliente (si es que hay)
@@ -70,8 +78,8 @@ int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido pedidos[], int tamP
 /// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
 int Informes_ImprimirPromedioKgPolipropilenoPorCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente);
 
-/// @fn int Informes_ClientesConMasPedidosPendientes(ePedido[], int, eCliente[], int, int, int)
-/// @brief Imprime el consola el/los cliente/s con mas pedidos pendientes
+/// @fn int Informes_ClientesConMasPedidos(ePedido[], int, eCliente[], int, int, int, int)
+/// @brief
 ///
 /// @param pedidos -> Array de pedidos
 /// @param tamPedidos -> Tamaño del array pedidos
@@ -79,31 +87,9 @@ int Informes_ImprimirPromedioKgPolipropilenoPorCliente(ePedido pedidos[], int ta
 /// @param tamClientes -> Tamaño del array Clientes
 /// @param ultimoPedido -> Ultimo pedido realizado
 /// @param ultimoCliente -> Ultimo cliente registrado
+/// @param modo -> 1 (Pendientes), 2 (Completados), si se ingresa cualquier otro entero contara
+/// 		pendientes y completados
 /// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
-int Informes_ClientesConMasPedidosPendientes(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente);
-
-/// @fn int Informes_ClientesConMasPedidosCompletados(ePedido[], int, eCliente[], int, int, int)
-/// @brief Imprime el consola el/los cliente/s con mas pedidos completados
-///
-/// @param pedidos -> Array de pedidos
-/// @param tamPedidos -> Tamaño del array pedidos
-/// @param clientes -> Array de Clientes
-/// @param tamClientes -> Tamaño del array Clientes
-/// @param ultimoPedido -> Ultimo pedido realizado
-/// @param ultimoCliente -> Ultimo cliente registrado
-/// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
-int Informes_ClientesConMasPedidosCompletados(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente);
-
-/// @fn int Informes_ClientesConMasPedidos(ePedido[], int, eCliente[], int, int, int)
-/// @brief Imprime el consola el/los cliente/s con mas pedidos
-///
-/// @param pedidos -> Array de pedidos
-/// @param tamPedidos -> Tamaño del array pedidos
-/// @param clientes -> Array de Clientes
-/// @param tamClientes -> Tamaño del array Clientes
-/// @param ultimoPedido -> Ultimo pedido realizado
-/// @param ultimoCliente -> Ultimo cliente registrado
-/// @return Retorna 1 (OK), 0 (Parametros incorrectos) o -1(No encontro pedidos)
-int Informes_ClientesConMasPedidos(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente);
+int Informes_ClientesConMasPedidos(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente, int modo);
 
 #endif /* INFORMES_H_ */

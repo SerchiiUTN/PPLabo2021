@@ -60,7 +60,7 @@ int ePedido_BuscarPedidoPendientePorCliente(ePedido pedidos[], int tam, int id)
 	{
 		for(i = 0; i < tam; i++)
 		{
-			if(pedidos[i].idCliente == id && strcmp(pedidos[i].estado,"Pendiente") == 0)
+			if(pedidos[i].idCliente == id && pedidos[i].estado == 1)
 			{
 				index = i;
 				break;
@@ -71,29 +71,6 @@ int ePedido_BuscarPedidoPendientePorCliente(ePedido pedidos[], int tam, int id)
 	return index;
 }
 
-/*
- * ESTA NO VA
- *
- * */
-/*
-int ePedido_BuscarEspacioNuevoPedido(ePedido pedidos[], int tam, int id)
-{
-	int index;
-
-	index = -1;
-
-	if(pedidos != NULL && tam > 0 && id < tam)
-	{
-		if(pedidos[id].isEmpty == EMPTY)
-		{
-			index = id;
-		}
-
-	}
-
-	return index;
-}
-*/
 
 int ePedido_BuscarPedidoPorID(ePedido pedidos[], int tam, int id)
 {
@@ -199,7 +176,7 @@ int ePedido_CargarUnPedido(ePedido pedidos[], int tamPedidos, eCliente clientes[
 						pedidos[index].kilosTotales = kilosAuxiliar;
 						pedidos[index].idPedido = idPedido;
 						pedidos[index].idCliente = idCliente;
-						strcpy(pedidos[index].estado, "Pendiente");
+						pedidos[index].estado = 1;
 						pedidos[index].isEmpty = FULL;
 						retorno = 1;
 					}
@@ -211,7 +188,8 @@ int ePedido_CargarUnPedido(ePedido pedidos[], int tamPedidos, eCliente clientes[
 	return retorno;
 }
 
-int ePedido_ContarPedidosPendientes(ePedido pedidos[], int tam, int idCliente)
+
+int ePedido_ContarPedidos(ePedido pedidos[], int tam, int idCliente, int modo)
 {
 	int contador;
 
@@ -220,60 +198,44 @@ int ePedido_ContarPedidosPendientes(ePedido pedidos[], int tam, int idCliente)
 
 	if(pedidos != NULL && tam > 0)
 	{
-		for(int i = 0; i < tam; i++)
+		if(modo == 1)
 		{
-			if(pedidos[i].isEmpty == FULL && strcmp(pedidos[i].estado,"Pendiente") == 0 && pedidos[i].idCliente == idCliente)
+			for(int i = 0; i < tam; i++)
 			{
-				contador++;
-			}
+				if(pedidos[i].isEmpty == FULL && pedidos[i].estado == 1 && pedidos[i].idCliente == idCliente)
+				{
+					contador++;
+				}
 
+			}
+		}
+		else
+		{
+			if(modo == 2)
+			{
+				for(int i = 0; i < tam; i++)
+				{
+					if(pedidos[i].isEmpty == FULL && pedidos[i].estado == 2 && pedidos[i].idCliente == idCliente)
+					{
+						contador++;
+					}
+
+				}
+			}
+			else
+			{
+				for(int i = 0; i < tam; i++)
+				{
+					if(pedidos[i].isEmpty == FULL && pedidos[i].idCliente == idCliente)
+					{
+						contador++;
+					}
+
+				}
+			}
 		}
 
-	}
 
-	return contador;
-}
-
-int ePedido_ContarPedidosCompletados(ePedido pedidos[], int tam, int idCliente)
-{
-	int contador;
-
-
-	contador = 0;
-
-	if(pedidos != NULL && tam > 0)
-	{
-		for(int i = 0; i < tam; i++)
-		{
-			if(pedidos[i].isEmpty == FULL && strcmp(pedidos[i].estado,"Completado") == 0 && pedidos[i].idCliente == idCliente)
-			{
-				contador++;
-			}
-
-		}
-
-	}
-
-	return contador;
-}
-
-int ePedido_ContarPedidos(ePedido pedidos[], int tam, int idCliente)
-{
-	int contador;
-
-
-	contador = 0;
-
-	if(pedidos != NULL && tam > 0)
-	{
-		for(int i = 0; i < tam; i++)
-		{
-			if(pedidos[i].isEmpty == FULL && pedidos[i].idCliente == idCliente)
-			{
-				contador++;
-			}
-
-		}
 
 	}
 
@@ -286,15 +248,15 @@ int ePedido_MostrarUnPedido(ePedido pedido, int modo)
 
 	retorno = 0;
 
-	if(modo == 1 && strcmp(pedido.estado, "Pendiente") == 0)//Modo 1 : Pendiente
+	if(modo == 1 && pedido.estado == 1)//Modo 1 : Pendiente
 	{
-		printf("N°Pedido : %d \nKg Totales: %.2f \nEstado: %s\n",pedido.idPedido, pedido.kilosTotales, pedido.estado);
+		printf("N°Pedido : %d \nKg Totales: %.2f \n",pedido.idPedido, pedido.kilosTotales);
 		retorno = 1;
 	}
 
-	if(modo == 2 && strcmp(pedido.estado, "Completado") == 0)//Modo 2 : Completado
+	if(modo == 2 && pedido.estado == 2)//Modo 2 : Completado
 	{
-		printf("N°Pedido : %d \nKg HDPE: %.2f \nKg LDPE: %.2f \nKg PP: %.2f \nEstado: %s\n",pedido.idPedido, pedido.kilosHDPE, pedido.kilosLDPE , pedido.kilosPP , pedido.estado);
+		printf("N°Pedido : %d \nKg HDPE: %.2f \nKg LDPE: %.2f \nKg PP: %.2f \n",pedido.idPedido, pedido.kilosHDPE, pedido.kilosLDPE , pedido.kilosPP);
 		retorno = 1;
 	}
 
@@ -313,7 +275,7 @@ int ePedido_MostrarPedidos(ePedido pedidos[], int tam, int modo)
 		printf("Pedidos: \n");
 		for(int i = 0; i < tam; i++)
 		{
-			if(pedidos[i].isEmpty == FULL && strcmp(pedidos[i].estado,"Pendiente") == 0)
+			if(pedidos[i].isEmpty == FULL && pedidos[i].estado == 1)
 			{
 				retornoAuxiliar = ePedido_MostrarUnPedido(pedidos[i],modo);
 				printf("\n");
@@ -372,7 +334,7 @@ int ePedido_ProcesarResiduos(ePedido pedidos[],int tam)
 		{
 			index = ePedido_BuscarPedidoPorID(pedidos,tam,id);
 
-			if(index != -1 && strcmp(pedidos[index].estado, "Pendiente") == 0)
+			if(index != -1 && pedidos[index].estado == 1)
 			{
 				pedidoAuxiliar = pedidos[index];
 				retornoAuxiliar = ePedido_SepararResiduos(&pedidoAuxiliar);
@@ -381,7 +343,7 @@ int ePedido_ProcesarResiduos(ePedido pedidos[],int tam)
 				if(retornoAuxiliar == 1)
 				{
 					pedidos[index] = pedidoAuxiliar;
-					strcpy(pedidos[index].estado,"Completado");
+					pedidos[index].estado = 2;
 					retorno = 1;
 				}
 			}

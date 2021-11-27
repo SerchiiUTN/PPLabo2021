@@ -8,14 +8,14 @@
 #include "Informes.h"
 
 
-int Informes_ImprimirClientesConPedidosPendientes(eCliente clientes[], int tamClientes, ePedido pedidos[], int tamPedidos, int ultimoPedido)
+int Informes_ImprimirClientesConPedidosPendientes(eCliente clientes[], int tamClientes, ePedido pedidos[], int tamPedidos, eLocalidad localidades[], int tamLocalidades, int ultimoPedido)
 {
 	int retorno;
 	int cantidadPedidos;
 
 	retorno = 0;
 
-	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && eCliente_VerificarClientes(clientes,tamClientes) == 1)
+	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && localidades != NULL && tamLocalidades > 0 &&eCliente_VerificarClientes(clientes,tamClientes) == 1)
 	{
 		if(ultimoPedido == 0)
 		{
@@ -31,8 +31,8 @@ int Informes_ImprimirClientesConPedidosPendientes(eCliente clientes[], int tamCl
 				{
 					retorno = 1;
 					printf("N°   - Empresa  \t  \t      - CUIT\t      - Direccion\t\t    - Localidad\n");
-					eCliente_MostrarUnCliente(clientes[i]);
-					cantidadPedidos = ePedido_ContarPedidosPendientes(pedidos,tamPedidos, clientes[i].idCliente);
+					eCliente_MostrarUnCliente(clientes[i],localidades,tamLocalidades);
+					cantidadPedidos = ePedido_ContarPedidos(pedidos,tamPedidos, clientes[i].idCliente, 1);
 
 					if(cantidadPedidos == 0)
 					{
@@ -50,13 +50,13 @@ int Informes_ImprimirClientesConPedidosPendientes(eCliente clientes[], int tamCl
 	return retorno;
 }
 
-int Informes_ImprimirPedidosPendientesConDatosCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido)
+int Informes_ImprimirPedidosPendientesConDatosCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades, int ultimoPedido)
 {
 	int retorno;
 
 	retorno = 0;
 
-	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && eCliente_VerificarClientes(clientes,tamClientes) == 1)
+	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && localidades != NULL && tamLocalidades > 0 && eCliente_VerificarClientes(clientes,tamClientes) == 1)
 	{
 		if(ultimoPedido == 0)
 		{
@@ -68,10 +68,11 @@ int Informes_ImprimirPedidosPendientesConDatosCliente(ePedido pedidos[], int tam
 
 			for(int i = 0; i < tamPedidos; i++)
 			{
-				if(pedidos[i].isEmpty == FULL && strcmp(pedidos[i].estado, "Pendiente") == 0)
+				if(pedidos[i].isEmpty == FULL && pedidos[i].estado == 1)
 				{
 					ePedido_MostrarUnPedido(pedidos[i],1);
-					eCliente_MostrarDatosClienteEnPedido(clientes,tamClientes,pedidos[i].idCliente);
+					eCliente_MostrarDatosClienteEnPedido(clientes,tamClientes,localidades,tamLocalidades,pedidos[i].idCliente);
+
 					retorno = 1;
 				}
 			}
@@ -81,14 +82,14 @@ int Informes_ImprimirPedidosPendientesConDatosCliente(ePedido pedidos[], int tam
 	return retorno;
 }
 
-int Informes_ImprimirPedidosCompletadosConDatosCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido)
+int Informes_ImprimirPedidosCompletadosConDatosCliente(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades, int ultimoPedido)
 {
 	int retorno;
 	int retornoAuxiliar;
 
 	retorno = 0;
 
-	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && eCliente_VerificarClientes(clientes,tamClientes) == 1)
+	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && localidades != NULL && tamLocalidades > 0 && eCliente_VerificarClientes(clientes,tamClientes) == 1)
 	{
 		if(ultimoPedido == 0)
 		{
@@ -100,10 +101,10 @@ int Informes_ImprimirPedidosCompletadosConDatosCliente(ePedido pedidos[], int ta
 
 			for(int i = 0; i < tamPedidos; i++)
 			{
-				if(pedidos[i].isEmpty == FULL && strcmp(pedidos[i].estado, "Completado") == 0)
+				if(pedidos[i].isEmpty == FULL && pedidos[i].estado == 2)
 				{
 					ePedido_MostrarUnPedido(pedidos[i],2);
-					retornoAuxiliar = eCliente_MostrarDatosClienteEnPedido(clientes,tamClientes,pedidos[i].idCliente);
+					retornoAuxiliar = eCliente_MostrarDatosClienteEnPedido(clientes,tamClientes,localidades, tamLocalidades,pedidos[i].idCliente);
 					retorno = 1;
 
 					if(retornoAuxiliar == 0)
@@ -121,17 +122,17 @@ int Informes_ImprimirPedidosCompletadosConDatosCliente(ePedido pedidos[], int ta
 	return retorno;
 }
 
-int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido)
+int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades, int ultimoPedido)
 {
 	int retorno;
-	char localidad[sizeof(clientes[0].localidad)];
+	int auxLocalidad;
 	int acumuladorPedidos;
 	int cantidadPedidos;
 
 	acumuladorPedidos = 0;
 	retorno = 0;
 
-	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && eCliente_VerificarClientes(clientes,tamClientes) == 1)
+	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && localidades != NULL && tamLocalidades > 0 && eCliente_VerificarClientes(clientes,tamClientes) == 1)
 	{
 		if(ultimoPedido == 0)
 		{
@@ -139,14 +140,14 @@ int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido pedidos[], int tamP
 		}
 		else
 		{
-			if(utn_PedirTexto(localidad,sizeof(localidad),"Ingrese una localidad : ","El dato ingresado es incorrecto.",2) == 1)
+			if(eLocalidad_MostrarLocalidades(localidades, tamLocalidades) == 1 && utn_PedirEntero(&auxLocalidad,"Ingrese la localidad: ","La localidad ingresada no es valida",1,tamLocalidades,2) == 1)
 			{
 				for(int i = 0; i < tamClientes; i++)
 				{
-					if(clientes[i].isEmpty == FULL && stricmp(clientes[i].localidad.localidad, localidad) == 0)
+					if(clientes[i].isEmpty == FULL && auxLocalidad == clientes[i].localidad)
 					{
 						retorno = 1;
-						cantidadPedidos = ePedido_ContarPedidosPendientes(pedidos,tamPedidos,clientes[i].idCliente);
+						cantidadPedidos = ePedido_ContarPedidos(pedidos,tamPedidos,clientes[i].idCliente, 1);
 						acumuladorPedidos += cantidadPedidos;
 
 					}
@@ -159,7 +160,7 @@ int Informes_ImprimirPedidosPendientesSegunLocalidad(ePedido pedidos[], int tamP
 				}
 				else
 				{
-					printf("\n%s : \nPedidos pendientes : %d\n\n",localidad,acumuladorPedidos);
+					printf("\nPedidos pendientes : %d\n\n",acumuladorPedidos);
 
 				}
 
@@ -191,7 +192,7 @@ int Informes_ImprimirPromedioKgPolipropilenoPorCliente(ePedido pedidos[], int ta
 			{
 				retorno = 1;
 
-				if(pedidos[i].isEmpty == FULL && strcmp(pedidos[i].estado, "Completado") == 0)
+				if(pedidos[i].isEmpty == FULL && pedidos[i].estado == 2)
 				{
 					acumuladorKilosPP += pedidos[i].kilosPP;
 				}
@@ -213,130 +214,14 @@ int Informes_ImprimirPromedioKgPolipropilenoPorCliente(ePedido pedidos[], int ta
 	return retorno;
 }
 
-
-int Informes_ClientesConMasPedidosPendientes(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente)
-{
-	int retorno;
-	int i;
-	int cantidadPedidos;
-	int mayorCantidad;
-	int primerPendiente;
-	eAuxiliar contadorCliente[tamClientes];
-
-	primerPendiente = 0;
-	retorno = 0;
-
-	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && eCliente_VerificarClientes(clientes,tamClientes) == 1)
-	{
-		if(ultimoPedido == 0 || ultimoCliente == 0)
-		{
-			retorno = -1;
-		}
-		else
-		{
-			for(i = 0; i < tamClientes; i++)
-			{
-				if(clientes[i].isEmpty == FULL)
-				{
-
-					cantidadPedidos = ePedido_ContarPedidosPendientes(pedidos,tamPedidos, clientes[i].idCliente);
-
-					contadorCliente[i].idCliente = clientes[i].idCliente;
-					contadorCliente[i].totalPedidos = cantidadPedidos;
-
-					if(primerPendiente == 0 || mayorCantidad < cantidadPedidos)
-					{
-						mayorCantidad = cantidadPedidos;
-						primerPendiente = 1;
-						retorno = 1;
-					}
-				}
-			}
-
-			if(primerPendiente == 1)
-			{
-				printf("Cliente/s con mas pedidos pendientes: ");
-				for(i = 0; i < tamClientes; i++)
-				{
-					if(clientes[i].isEmpty == FULL && contadorCliente[i].totalPedidos == mayorCantidad)
-					{
-						printf("%d - %s\n\n",clientes[i].idCliente,clientes[i].empresa);
-					}
-				}
-			}
-
-		}
-	}
-
-	return retorno;
-}
-
-
-int Informes_ClientesConMasPedidosCompletados(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente)
-{
-	int retorno;
-	int i;
-	int cantidadPedidos;
-	int mayorCantidad;
-	int primerCompletado;
-	eAuxiliar contadorCliente[tamClientes];
-
-	primerCompletado = 0;
-	retorno = 0;
-
-	if(clientes != NULL && tamClientes > 0 && pedidos != NULL && tamPedidos > 0 && eCliente_VerificarClientes(clientes,tamClientes) == 1)
-	{
-		if(ultimoPedido == 0 || ultimoCliente == 0)
-		{
-			retorno = -1;
-		}
-		else
-		{
-			for(i = 0; i < tamClientes; i++)
-			{
-				if(clientes[i].isEmpty == FULL)
-				{
-
-					cantidadPedidos = ePedido_ContarPedidosCompletados(pedidos,tamPedidos, clientes[i].idCliente);
-
-					contadorCliente[i].idCliente = clientes[i].idCliente;
-					contadorCliente[i].totalPedidos = cantidadPedidos;
-
-					if(primerCompletado == 0 || mayorCantidad < cantidadPedidos)
-					{
-						mayorCantidad = cantidadPedidos;
-						primerCompletado = 1;
-						retorno = 1;
-					}
-				}
-			}
-
-			if(primerCompletado == 1)
-			{
-				printf("Cliente/s con mas pedidos pendientes: ");
-				for(i = 0; i < tamClientes; i++)
-				{
-					if(clientes[i].isEmpty == FULL && contadorCliente[i].totalPedidos == mayorCantidad)
-					{
-						printf("%d - %s\n\n",clientes[i].idCliente,clientes[i].empresa);
-					}
-				}
-			}
-
-		}
-	}
-
-	return retorno;
-}
-
-int Informes_ClientesConMasPedidos(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente)
+int Informes_ClientesConMasPedidos(ePedido pedidos[], int tamPedidos, eCliente clientes[], int tamClientes, int ultimoPedido, int ultimoCliente, int modo)
 {
 	int retorno;
 	int i;
 	int cantidadPedidos;
 	int mayorCantidad;
 	int primerPedido;
-	eAuxiliar contadorCliente[tamClientes];
+	int index;
 
 	primerPedido = 0;
 	retorno = 0;
@@ -354,30 +239,46 @@ int Informes_ClientesConMasPedidos(ePedido pedidos[], int tamPedidos, eCliente c
 				if(clientes[i].isEmpty == FULL)
 				{
 
-					cantidadPedidos = ePedido_ContarPedidos(pedidos,tamPedidos, clientes[i].idCliente);
-
-					contadorCliente[i].idCliente = clientes[i].idCliente;
-					contadorCliente[i].totalPedidos = cantidadPedidos;
+					cantidadPedidos = ePedido_ContarPedidos(pedidos,tamPedidos, clientes[i].idCliente, modo);
 
 					if(primerPedido == 0 || mayorCantidad < cantidadPedidos)
 					{
 						mayorCantidad = cantidadPedidos;
+						index = i;
 						primerPedido = 1;
 						retorno = 1;
 					}
 				}
 			}
 
-			if(primerPedido == 1)
+			if(mayorCantidad != 0)
 			{
-				printf("Cliente/s con mas pedidos: ");
-				for(i = 0; i < tamClientes; i++)
+
+				if(modo == 1)
 				{
-					if(clientes[i].isEmpty == FULL && contadorCliente[i].totalPedidos == mayorCantidad)
+					printf("\nCliente con mas pedidos pendientes: \n");
+					printf("%d - %s : %d pedidos\n\n",clientes[index].idCliente,clientes[index].empresa, mayorCantidad);
+
+				}
+				else
+				{
+					if(modo == 2)
 					{
-						printf("%d - %s\n\n",clientes[i].idCliente,clientes[i].empresa);
+						printf("\nCliente con mas pedidos completados: \n");
+						printf("%d - %s : %d pedidos\n\n",clientes[index].idCliente,clientes[index].empresa, mayorCantidad);
+
+					}
+					else
+					{
+						printf("\nCliente con mas pedidos: \n");
+						printf("%d - %s : %d pedidos\n\n",clientes[index].idCliente,clientes[index].empresa, mayorCantidad);
+
 					}
 				}
+			}
+			else
+			{
+				printf("\nNo se encontraron pedidos\n\n");
 			}
 
 		}

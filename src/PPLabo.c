@@ -16,8 +16,9 @@
 #include "ePedido.h"
 #include "Informes.h"
 #include "utn.h"
-#define TAMCLIENTES 5
-#define TAMPEDIDOS 15
+#define TAMCLIENTES 100
+#define TAMPEDIDOS 1000
+#define TAMLOCALIDADES 3
 #define EMPTY 0
 #define FULL 1
 
@@ -27,11 +28,17 @@ int main(void) {
 	setbuf(stdout,NULL);
 	eCliente clientes[TAMCLIENTES] =
 			{
-				{1,"CocaCola","30-45678912-3",{"Av. 25 de Mayo", 123},{"CABA"},FULL},
-				{2,"Pepsi","30-45618912-3",{"Maipu",5800},{"CABA"},FULL},
-				{3,"Culligan Argentina","30-12345685-2",{"Montenegro",1380},{"Laferrere"},FULL}
+				{1,"CocaCola","30-45678912-3",{"Av. 25 de Mayo", 123},2,FULL},
+				{2,"Pepsi","30-45618912-3",{"Maipu",5800},3,FULL},
+				{3,"Culligan Argentina","30-12345685-2",{"Montenegro",1380},1,FULL}
 			};
 	ePedido pedidos[TAMPEDIDOS];
+	eLocalidad localidades[TAMLOCALIDADES] =
+			{
+					{1, "CABA", FULL},
+					{2, "Avellaneda", FULL},
+					{3, "3 de Febrero", FULL}
+			};
 	int opcion;
 	int ultimoCliente;
 	int ultimoPedido;
@@ -71,7 +78,7 @@ int main(void) {
 		switch(opcion)
 		{
 			case 1:
-				retornoAuxiliar = eCliente_CargarUnCliente(clientes,TAMCLIENTES,&ultimoCliente);
+				retornoAuxiliar = eCliente_CargarUnCliente(clientes,TAMCLIENTES,localidades,TAMLOCALIDADES,&ultimoCliente);
 
 				if(retornoAuxiliar == -1)
 				{
@@ -93,7 +100,7 @@ int main(void) {
 			break;
 			case 2:
 
-				retornoAuxiliar = eCliente_MostrarClientes(clientes, TAMCLIENTES);
+				retornoAuxiliar = eCliente_MostrarClientes(clientes, TAMCLIENTES, localidades, TAMLOCALIDADES);
 
 				if(retornoAuxiliar == 0)
 				{
@@ -101,7 +108,7 @@ int main(void) {
 				}
 				else
 				{
-					retornoAuxiliar = eCliente_ModificarCliente(clientes, TAMCLIENTES);
+					retornoAuxiliar = eCliente_ModificarCliente(clientes, TAMCLIENTES, localidades, TAMLOCALIDADES);
 
 					if(retornoAuxiliar == 1)
 					{
@@ -116,7 +123,7 @@ int main(void) {
 			break;
 			case 3:
 
-				retornoAuxiliar = eCliente_MostrarClientes(clientes, TAMCLIENTES);
+				retornoAuxiliar = eCliente_MostrarClientes(clientes, TAMCLIENTES, localidades, TAMLOCALIDADES);
 
 				if(retornoAuxiliar == 0)
 				{
@@ -154,7 +161,7 @@ int main(void) {
 
 			break;
 			case 4:
-				retornoAuxiliar = eCliente_MostrarClientes(clientes, TAMCLIENTES);
+				retornoAuxiliar = eCliente_MostrarClientes(clientes, TAMCLIENTES, localidades, TAMLOCALIDADES);
 
 				if(retornoAuxiliar == 0)
 				{
@@ -219,7 +226,7 @@ int main(void) {
 
 			break;
 			case 6:
-				retornoAuxiliar = Informes_ImprimirClientesConPedidosPendientes(clientes, TAMCLIENTES, pedidos, TAMPEDIDOS, ultimoPedido);
+				retornoAuxiliar = Informes_ImprimirClientesConPedidosPendientes(clientes, TAMCLIENTES, pedidos, TAMPEDIDOS, localidades, TAMLOCALIDADES, ultimoPedido);
 
 				if(retornoAuxiliar == -1)
 				{
@@ -235,7 +242,7 @@ int main(void) {
 				}
 			break;
 			case 7:
-				retornoAuxiliar = Informes_ImprimirPedidosPendientesConDatosCliente(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoPedido);
+				retornoAuxiliar = Informes_ImprimirPedidosPendientesConDatosCliente(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, localidades, TAMLOCALIDADES, ultimoPedido);
 
 				if(retornoAuxiliar == -1)
 				{
@@ -251,7 +258,7 @@ int main(void) {
 				}
 			break;
 			case 8:
-				retornoAuxiliar = Informes_ImprimirPedidosCompletadosConDatosCliente(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoPedido);
+				retornoAuxiliar = Informes_ImprimirPedidosCompletadosConDatosCliente(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, localidades, TAMLOCALIDADES, ultimoPedido);
 
 				if(retornoAuxiliar == -1)
 				{
@@ -267,7 +274,7 @@ int main(void) {
 				}
 			break;
 			case 9:
-				retornoAuxiliar = Informes_ImprimirPedidosPendientesSegunLocalidad(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoPedido);
+				retornoAuxiliar = Informes_ImprimirPedidosPendientesSegunLocalidad(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, localidades, TAMLOCALIDADES, ultimoPedido);
 
 				if(retornoAuxiliar == -1)
 				{
@@ -297,9 +304,9 @@ int main(void) {
 					}
 
 				}
-
+			break;
 			case 11:
-				retornoAuxiliar = Informes_ClientesConMasPedidosPendientes(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido);
+				retornoAuxiliar = Informes_ClientesConMasPedidos(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido, 1);
 
 				if(retornoAuxiliar == -1)
 				{
@@ -316,7 +323,7 @@ int main(void) {
 			break;
 
 			case 12:
-				retornoAuxiliar = Informes_ClientesConMasPedidosCompletados(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido);
+				retornoAuxiliar = Informes_ClientesConMasPedidos(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido, 2);
 
 				if(retornoAuxiliar == -1)
 				{
@@ -333,7 +340,7 @@ int main(void) {
 			break;
 
 			case 13:
-				retornoAuxiliar = Informes_ClientesConMasPedidos(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido);
+				retornoAuxiliar = Informes_ClientesConMasPedidos(pedidos, TAMPEDIDOS, clientes, TAMCLIENTES, ultimoCliente, ultimoPedido, 3);
 
 				if(retornoAuxiliar == -1)
 				{

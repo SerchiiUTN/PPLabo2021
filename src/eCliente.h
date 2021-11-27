@@ -19,9 +19,9 @@ typedef struct
 {
 	int idCliente;
 	char empresa[51];
-	char cuit[14];
+	char cuit[15];
 	eDireccion direccion;
-	eLocalidad localidad;
+	int localidad;
 	int isEmpty;
 }eCliente;
 
@@ -46,18 +46,21 @@ int eCliente_BuscarPrimerEspacioLibre(eCliente clientes[], int tam);
 /// 		en una direccion de memoria de una estructura
 ///
 /// @param cliente -> Direccion de memoria de la estructura
+/// @param localidades -> Array de localidades
+/// @param tam -> Tamaño del array
 /// @return Retorna 1 (OK) o 0 (Error)
-int eCliente_IngresarUnCliente(eCliente* cliente);
+int eCliente_IngresarUnCliente(eCliente* cliente, eLocalidad localidades[], int tam);
 
-/// @fn int eCliente_CargarUnCliente(eCliente[], int, int*)
-/// @brief Busca espacio en array, si lo encuentra toma por consola los datos de un cliente
-/// 		y los guarda en una estructura
+/// @fn int eCliente_CargarUnCliente(eCliente[], int, eLocalidad[], int, int*)
+/// @brief Carga un nuevo cliente en el array de clientes, asignando el ultimo id al mismo
 ///
 /// @param clientes -> Array de clientes
-/// @param tam -> Tamaño del array
-/// @param ultimoIngresado -> ID del ultimo cliente que se ingreso (0 si no se ingreso ninguno)
-/// @return Retorna 1 (OK), 0 (No se pudo guardar el cliente) o -1 (No se encontro espacio libre)
-int eCliente_CargarUnCliente(eCliente clientes[], int tam, int* ultimoIngresado);
+/// @param tamClientes -> Tamaño del array
+/// @param localidades -> Array de localidades
+/// @param tamLocalidades -> Tamaño del array
+/// @param ultimoId -> ultimo id que se cargo
+/// @return Retorna 1 (OK), 0 (Error)
+int eCliente_CargarUnCliente(eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades, int* ultimoId);
 
 /// @fn int eCliente_BuscarClientePorID(eCliente[], int, int)
 /// @brief Busca un cliente en un array y si lo encuentra retorna el indice
@@ -68,14 +71,15 @@ int eCliente_CargarUnCliente(eCliente clientes[], int tam, int* ultimoIngresado)
 /// @return Retorna -1 (Error) o el indice del cliente buscado
 int eCliente_BuscarClientePorID(eCliente clientes[], int tam, int id);
 
-/// @fn int eCliente_ModificarCliente(eCliente[], int)
-/// @brief Pide por consola un ID de cliente, si lo encuentra toma los datos por consola
-/// 		y modifica al cliente buscado
+/// @fn int eCliente_ModificarCliente(eCliente[], int, eLocalidad[], int)
+/// @brief Busca en la lista un cliente y modifica los datos segun lo ingresado en consola
 ///
-/// @param clientes -> Array de clientes
-/// @param tam -> Tamaño del array
+/// @param clientes -> Lista de clientes
+/// @param tamClientes -> Tamaño de la lista
+/// @param localidades -> Lista de localidades
+/// @param tamLocalidades -> Tamaño de la lista
 /// @return Retorna 1 (OK) o 0 (Error)
-int eCliente_ModificarCliente(eCliente clientes[], int tam);
+int eCliente_ModificarCliente(eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades);
 
 /// @fn int eCliente_EliminarCliente(eCliente[], int, int)
 /// @brief Busca un cliente por ID y si lo encuentra da la opcion de eliminar
@@ -94,29 +98,35 @@ int eCliente_EliminarCliente(eCliente clientes[], int tam, int id);
 /// @return Retorna 1 (Encontro cliente) o 0 (No encontro cliente)
 int eCliente_VerificarClientes(eCliente clientes[], int tam);
 
-/// @fn int eCliente_MostrarUnCliente(eCliente)
-/// @brief Imprime por consola los datos de un cliente
+/// @fn int eCliente_MostrarUnCliente(eCliente, eLocalidad[], int)
+/// @brief Muestra los datos de un cliente por consola
 ///
-/// @param cliente -> Cliente a imprimir
+/// @param cliente -> Cliente a mostrar
+/// @param localidades -> Lista de localidades
+/// @param tam -> Tamaño de la lista
 /// @return Retorna 1 (OK) o 0 (Error)
-int eCliente_MostrarUnCliente(eCliente cliente);
+int eCliente_MostrarUnCliente(eCliente cliente, eLocalidad localidades[], int tam);
 
-/// @fn int eCliente_MostrarDatosClienteEnPedido(eCliente[], int, int)
-/// @brief Muestra los datos de un cliente que realizo algun pedido
+/// @fn int eCliente_MostrarDatosClienteEnPedido(eCliente[], int, eLocalidad[], int, int)
+/// @brief Muestra los datos de un cliente por consola (Llamada por Informes para mostrar junto a un pedido)
 ///
-/// @param clientes -> Array de clientes
-/// @param tam -> Tamaño del array
-/// @param idCliente -> ID del cliente
-/// @return Retorna 0 (No encontro el cliente) o 1 (Lo encontro y mostro en consola
-int eCliente_MostrarDatosClienteEnPedido(eCliente clientes[], int tam, int idCliente);
+/// @param clientes -> Lista de clientes
+/// @param tamClientes -> Tamaño de la lista
+/// @param localidades -> Lista de localidades
+/// @param tamLocalidades -> Tamaño de la lista
+/// @param idCliente -> ID del cliente a mostrar
+/// @return Retorna 1 (OK) o 0 (Error)
+int eCliente_MostrarDatosClienteEnPedido(eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades, int idCliente);
 
-/// @fn int eCliente_MostrarClientes(eCliente[], int)
-/// @brief Recorre una lista de clientes y los imprime por consola
+/// @fn int eCliente_MostrarClientes(eCliente[], int, eLocalidad[], int)
+/// @brief Muestra los clientes que hay cargados en la lista
 ///
-/// @param clientes -> Array de clientes
-/// @param tam -> Tamaño del array
-/// @return Retorna 1 (OK) o 0 (No hay clientes activos)
-int eCliente_MostrarClientes(eCliente clientes[], int tam);
+/// @param clientes -> Lista de clientes
+/// @param tamClientes -> Tamaño de la lista
+/// @param localidades -> Lista de localidades
+/// @param tamLocalidades -> Tamaño de la lista
+/// @return Retorna 1 (OK) o 0 (Error)
+int eCliente_MostrarClientes(eCliente clientes[], int tamClientes, eLocalidad localidades[], int tamLocalidades);
 
 
 #endif /* ECLIENTE_H_ */
